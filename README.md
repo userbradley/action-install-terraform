@@ -24,7 +24,7 @@ jobs:
 Below assumes your directory structure is as below:
 
 
-The workflow will inspect the `provider.tf` file and install the required terraform version as specified in 
+The workflow will inspect the `provider.tf` file and install the required terraform version as specified in
 
 ```hcl
 terraform {
