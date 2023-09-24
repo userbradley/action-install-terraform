@@ -16,7 +16,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Install Terraform
-        uses: userbradley/action-install-terraform@v1.1.0
+        uses: userbradley/action-install-terraform@v1.0.0
         with:
           providerFileLocation: "terraform"
 ```
@@ -24,7 +24,7 @@ jobs:
 Below assumes your directory structure is as below:
 
 
-The workflow will inspect the `provider.tf` file and install the required terraform version as specified in 
+The workflow will inspect the `provider.tf` file and install the required terraform version as specified in
 
 ```hcl
 terraform {
@@ -38,3 +38,6 @@ terraform {
 |------------------------|----------|---------------|----------------------------------|
 | `providerFileLocation` | `no`     | `null`        | `terraform/deployments/puppy-ui` |
 
+---
+
+Created by Bradley
