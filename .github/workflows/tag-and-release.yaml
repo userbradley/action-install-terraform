@@ -1,0 +1,45 @@
+name: Create Tag & Release
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types:
+      - labeled
+
+permissions:
+  pull-requests: write
+  contents: write
+
+jobs:
+  comment-pr:
+    if: github.event.action == 'labeled'
+    runs-on: ubuntu-latest
+    name: Comment on PR the version to be released
+    steps:
+      - uses: actions/checkout@v2
+      - name: Post bumpr status comment
+        uses: haya14busa/action-bumpr@v1
+  create-tag-and-release:
+    if: github.event.action != 'labeled'
+    runs-on: ubuntu-latest
+    name: Bump tag and cut release
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Bumpr Create Tag
+        id: bumpr
+        if: "!startsWith(github.ref, 'refs/tags/')"
+        uses: haya14busa/action-bumpr@v1
+
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.bumpr.outputs.next_version }}
+          name: Version ${{ steps.bumpr.outputs.next_version }}
+          generate_release_notes: true
+          draft: false
+          prerelease: false
