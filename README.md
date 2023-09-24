@@ -16,7 +16,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Install Terraform
-        uses: userbradley/action-install-terraform@v1.1.0
+        uses: userbradley/action-install-terraform@v1.0.0
         with:
           providerFileLocation: "terraform"
 ```
