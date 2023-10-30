@@ -23,6 +23,6 @@ runs:
       shell: bash
       run: echo terraform-version=$(sed -e 's/^"//' -e 's/"$//' <<<"$(cat ${{ inputs.providerFileLocation }}/provider.tf | hclq get 'terraform.required_version')") >> $GITHUB_OUTPUT
     - name: Install Terraform
-      uses: hashicorp/setup-terraform@v2
+      uses: hashicorp/setup-terraform@v3
       with:
         terraform_version: ${{steps.tfversion.outputs.terraform-version}}
