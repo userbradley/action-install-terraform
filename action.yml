@@ -1,28 +1,52 @@
 name: Install Terraform
 description: Installs terraform based off a `provider.tf` file
 author: userbradley
+
 inputs:
   providerFileLocation:
     description: Location of the Provider.tf file
     required: true
+    default: "terraform/templates"
+  wrapper:
+    description: Should the terraform wrapper be initialized
+    required: false
+    default: "false"
+
+
 runs:
   using: composite
   steps:
-    - name: Install HCLQ
+    - name: Cache HCLQ
+      id: cache
+      uses: actions/cache@v3
+      with:
+        path: bin/hclq
+        key: hcql-0.5.3
+    - name: Make Directory
+      if: steps.cache.outputs.cache-hit != 'true'
+      shell: sh
+      run: mkdir -p bin
+    - name: Download HCLQ Binary
+      if: steps.cache.outputs.cache-hit != 'true'
+      shell: sh
+      run: wget -q -O bin/hclq  https://github.com/mattolenik/hclq/releases/download/0.5.3/hclq-linux-amd64
+    - name: Configure file permissions
       shell: bash
       run: |
-        mkdir bin
-        wget -O bin/hclq  https://github.com/mattolenik/hclq/releases/download/0.5.3/hclq-linux-amd64
         chmod +x bin/hclq
         echo "$GITHUB_WORKSPACE/bin" >> $GITHUB_PATH
+
     - name: Check Provider.tf file exists
       shell: bash
       run: test -f ${{ inputs.providerFileLocation }}/provider.tf
+
     - name: Get the Version and set it as a variable
       id: tfversion
       shell: bash
       run: echo terraform-version=$(sed -e 's/^"//' -e 's/"$//' <<<"$(cat ${{ inputs.providerFileLocation }}/provider.tf | hclq get 'terraform.required_version')") >> $GITHUB_OUTPUT
+
     - name: Install Terraform
-      uses: hashicorp/setup-terraform@v2
+      uses: hashicorp/setup-terraform@v3
       with:
         terraform_version: ${{steps.tfversion.outputs.terraform-version}}
+        terraform_wrapper: ${{ inputs.wrapper }}
