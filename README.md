@@ -1,7 +1,5 @@
 # GitHub Action: Install Terraform
 
-![Pets at Home](https://img.shields.io/badge/Pets%20At%20Home-%23000000.svg?style=for-the-badge&logo=userbradley&logoColor=#4BA840)
-
 This action is designed to install Terraform by using the `provider.tf` version of terraform requested
 
 ## Quick Start

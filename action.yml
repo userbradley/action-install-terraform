@@ -1,7 +1,6 @@
 name: Install Terraform
 description: Installs terraform based off a `provider.tf` file
 author: userbradley
-
 inputs:
   providerFileLocation:
     description: Location of the Provider.tf file
@@ -11,8 +10,6 @@ inputs:
     description: Should the terraform wrapper be initialized
     required: false
     default: "false"
-
-
 runs:
   using: composite
   steps:
@@ -35,16 +32,13 @@ runs:
       run: |
         chmod +x bin/hclq
         echo "$GITHUB_WORKSPACE/bin" >> $GITHUB_PATH
-
     - name: Check Provider.tf file exists
       shell: bash
       run: test -f ${{ inputs.providerFileLocation }}/provider.tf
-
     - name: Get the Version and set it as a variable
       id: tfversion
       shell: bash
       run: echo terraform-version=$(sed -e 's/^"//' -e 's/"$//' <<<"$(cat ${{ inputs.providerFileLocation }}/provider.tf | hclq get 'terraform.required_version')") >> $GITHUB_OUTPUT
-
     - name: Install Terraform
       uses: hashicorp/setup-terraform@v3
       with:
