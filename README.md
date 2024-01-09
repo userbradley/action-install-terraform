@@ -15,7 +15,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Install Terraform
-        uses: userbradley/action-install-terraform@v1.2.0
+        uses: userbradley/action-install-terraform@v1.1.0
         with:
           providerFileLocation: "terraform"
 ```
@@ -33,7 +33,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Install Terraform
-        uses: userbradley/action-install-terraform@v1.2.0
+        uses: userbradley/action-install-terraform@v1.1.0
         with:
           providerFileLocation: "terraform"
           wrapper: true
