@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Comment on PR the version to be released
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Post bumpr status comment
         uses: haya14busa/action-bumpr@v1
   create-tag-and-release:
@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Bump tag and cut release
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Bumpr Create Tag
         id: bumpr
         if: "!startsWith(github.ref, 'refs/tags/')"
